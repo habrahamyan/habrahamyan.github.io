@@ -67,10 +67,9 @@
           const li = document.createElement("li");
 
           const a = document.createElement("a");
-          a.href = item.file;
+          const fileId = item.file.split("/").pop().replace(".pdf", "");
+          a.href = "paper/?id=" + encodeURIComponent(fileId);
           a.textContent = item.title;
-          a.target = "_blank";
-          a.rel = "noopener";
 
           const desc = document.createElement("p");
           desc.style.margin = "0.2rem 0 0 0";   // small top margin only

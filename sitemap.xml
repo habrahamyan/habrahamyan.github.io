@@ -7,14 +7,14 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- Scripts -->
+  <!-- Paper viewer pages -->
   <url>
-    <loc>https://habrahamyan.github.io/scripts/Example_calculation__dimensional_regularization_with_a_two_loop.pdf</loc>
+    <loc>https://habrahamyan.github.io/paper/?id=Example_calculation__dimensional_regularization_with_a_two_loop</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://habrahamyan.github.io/scripts/Custodial_symmetry.pdf</loc>
+    <loc>https://habrahamyan.github.io/paper/?id=Custodial_symmetry</loc>
     <priority>0.8</priority>
   </url>
 
