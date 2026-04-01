@@ -8,16 +8,40 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 
+  <script>
+    (function() {
+      const t = localStorage.getItem("theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
   <style>
+    :root {
+      --bg:          #ffffff;
+      --text:        #222222;
+      --text-muted:  #555555;
+      --text-muted2: #444444;
+      --link:        #0066cc;
+      --border:      #eeeeee;
+      --badge-bg:    #eef;
+      --badge-text:  #225;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
+    }
+    [data-theme="dark"]  { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
+    [data-theme="light"] { --bg:#ffffff; --text:#222222; --text-muted:#555555; --text-muted2:#444444; --link:#0066cc; --border:#eeeeee; --badge-bg:#eef; --badge-text:#225; }
+
     body {
       max-width: 800px;
       margin: 2rem auto;
       padding: 0 1rem;
       font: 16px/1.5 system-ui, sans-serif;
-      color: #222;
+      color: var(--text);
+      background: var(--bg);
     }
     header {
-      border-bottom: 2px solid #eee;
+      border-bottom: 2px solid var(--border);
       margin-bottom: 2rem;
       padding-bottom: 1rem;
     }
@@ -27,7 +51,7 @@
     }
     p.description {
       margin: .5rem 0 0 0;
-      color: #555;
+      color: var(--text-muted);
     }
     h2 {
       margin-top: 2rem;
@@ -41,14 +65,70 @@
     }
     a {
       text-decoration: none;
-      color: #0066cc;
+      color: var(--link);
     }
     a:hover {
       text-decoration: underline;
     }
+    .item-desc {
+      margin: 0.2rem 0 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .keyword-wrapper {
+      margin: 0.3rem 0 0 0;
+      font-size: 0.85rem;
+      color: var(--text-muted2);
+    }
+    .keyword-wrapper .kw-label { font-weight: 600; }
+    .keyword-badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 0.1rem 0.4rem;
+      margin-right: 0.3rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    #theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--badge-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.3rem 0.7rem;
+      font: 0.8rem/1 system-ui, sans-serif;
+      cursor: pointer;
+    }
+    #theme-toggle:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
+  <button id="theme-toggle" aria-label="Toggle dark mode"></button>
+  <script>
+    (function() {
+      const btn = document.getElementById("theme-toggle");
+      function update() {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.getAttribute("data-theme") &&
+           window.matchMedia("(prefers-color-scheme: dark)").matches);
+        btn.textContent = dark ? "Light mode" : "Dark mode";
+      }
+      update();
+      btn.addEventListener("click", function() {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.getAttribute("data-theme") &&
+           window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const next = dark ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        update();
+      });
+    })();
+  </script>
+
   <header>
     <h1>Hrach Abrahamyan</h1>
     <p class="description">Hi and welcome to my little corner of the internet. I'm Hrach Abrahamyan, a grad student of theoretical physics at the <a href="https://www.ph.nat.tum.de/en/ph/research/">Technical University Munich</a>. On this website I would like to upload some of my pedagogical and academic works of physics, primarily with the aim of improving my skills in teaching and physics. Hopefully I can give my own spin to some of these explanations. Whenever I have some free time, I will write and upload PDFs where I derive or explain various theoretical physics and math topics.</p>
@@ -93,10 +173,7 @@
           a.textContent = item.title;
 
           const desc = document.createElement("p");
-          desc.style.margin = "0.2rem 0 0 0";   // small top margin only
-          desc.style.fontSize = "0.9rem";       // slightly smaller than title
-          desc.style.color = "#555";            // softer color for contrast
-
+          desc.className = "item-desc";
           desc.textContent = item.description;
 
           li.appendChild(a);
@@ -105,27 +182,17 @@
         // Add keywords if present
         if (item.keywords) {
           const kwWrapper = document.createElement("p");
-          kwWrapper.style.margin = "0.3rem 0 0 0";
-          kwWrapper.style.fontSize = "0.85rem";
-          kwWrapper.style.color = "#444";
+          kwWrapper.className = "keyword-wrapper";
 
-          // Add label
           const label = document.createElement("span");
+          label.className = "kw-label";
           label.textContent = "Keywords: ";
-          label.style.fontWeight = "600";
           kwWrapper.appendChild(label);
 
-          // Add each keyword as a badge
           item.keywords.forEach((word, i) => {
             const span = document.createElement("span");
+            span.className = "keyword-badge";
             span.textContent = word;
-            span.style.display = "inline-block";
-            span.style.background = "#eef";
-            span.style.color = "#225";
-            span.style.padding = "0.1rem 0.4rem";
-            span.style.marginRight = "0.3rem";
-            span.style.borderRadius = "4px";
-            span.style.fontSize = "0.8rem";
             kwWrapper.appendChild(span);
           });
 

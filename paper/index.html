@@ -7,17 +7,41 @@
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 
+  <script>
+    (function() {
+      const t = localStorage.getItem("theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
   <style>
+    :root {
+      --bg:          #ffffff;
+      --text:        #222222;
+      --text-muted:  #444444;
+      --link:        #0066cc;
+      --border:      #eeeeee;
+      --border2:     #dddddd;
+      --badge-bg:    #eef;
+      --badge-text:  #225;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --link:#58a6ff; --border:#30363d; --border2:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
+    }
+    [data-theme="dark"]  { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --link:#58a6ff; --border:#30363d; --border2:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
+    [data-theme="light"] { --bg:#ffffff; --text:#222222; --text-muted:#444444; --link:#0066cc; --border:#eeeeee; --border2:#dddddd; --badge-bg:#eef; --badge-text:#225; }
+
     body {
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
       font: 16px/1.5 system-ui, sans-serif;
-      color: #222;
+      color: var(--text);
+      background: var(--bg);
     }
     .back-link {
       font-size: 0.9rem;
-      color: #0066cc;
+      color: var(--link);
       text-decoration: none;
       display: inline-block;
       margin-bottom: 1.5rem;
@@ -28,19 +52,19 @@
       font-size: 1.6rem;
     }
     .meta-description {
-      color: #444;
+      color: var(--text-muted);
       margin: 0 0 1rem 0;
     }
     .keywords {
       margin: 0 0 1.25rem 0;
       font-size: 0.85rem;
-      color: #444;
+      color: var(--text-muted);
     }
     .keywords .label { font-weight: 600; }
     .keyword-badge {
       display: inline-block;
-      background: #eef;
-      color: #225;
+      background: var(--badge-bg);
+      color: var(--badge-text);
       padding: 0.1rem 0.4rem;
       margin: 0.15rem 0.3rem 0.15rem 0;
       border-radius: 4px;
@@ -51,17 +75,30 @@
     }
     .pdf-actions a {
       text-decoration: none;
-      color: #0066cc;
+      color: var(--link);
       font-size: 0.95rem;
     }
     .pdf-actions a:hover { text-decoration: underline; }
     .pdf-viewer {
       width: 100%;
       height: 82vh;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border2);
       border-radius: 4px;
     }
     #error-msg { color: #c00; }
+    #theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--badge-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.3rem 0.7rem;
+      font: 0.8rem/1 system-ui, sans-serif;
+      cursor: pointer;
+    }
+    #theme-toggle:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -86,6 +123,29 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
     onload="if(window._mathQueue){renderMathInElement(window._mathQueue,window._katexOpts);window._mathQueue=null;}"></script>
+
+  <button id="theme-toggle" aria-label="Toggle dark mode"></button>
+  <script>
+    (function() {
+      const btn = document.getElementById("theme-toggle");
+      function update() {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.getAttribute("data-theme") &&
+           window.matchMedia("(prefers-color-scheme: dark)").matches);
+        btn.textContent = dark ? "Light mode" : "Dark mode";
+      }
+      update();
+      btn.addEventListener("click", function() {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.getAttribute("data-theme") &&
+           window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const next = dark ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        update();
+      });
+    })();
+  </script>
 
   <a class="back-link" href="/">← Back to all scripts</a>
   <div id="content"></div>
