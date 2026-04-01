@@ -6,6 +6,7 @@
   <title>Hrach Abrahamyan – My Public Scripts</title>
   
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 
   <style>
     body {
@@ -55,9 +56,29 @@
   </header>
 
   <h2>Scripts</h2>
-  <ul id="pdf-list">
-    
-  </ul>
+  <ul id="pdf-list"></ul>
+
+  <script>
+    window._katexOpts = {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$", right: "$", inline: true},
+        {left: "\\(", right: "\\)", inline: true},
+        {left: "\\[", right: "\\]", display: true}
+      ],
+      throwOnError: false
+    };
+    window._renderMath = function(el) {
+      if (window.renderMathInElement) {
+        renderMathInElement(el, window._katexOpts);
+      } else {
+        window._mathQueue = el;
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="if(window._mathQueue){renderMathInElement(window._mathQueue,window._katexOpts);window._mathQueue=null;}"></script>
 
   <script>
     fetch("scripts.json")
@@ -113,6 +134,7 @@
 
           document.getElementById("pdf-list").appendChild(li);
         });
+        window._renderMath(document.getElementById("pdf-list"));
       })
       .catch(err => {
         console.error(err);
