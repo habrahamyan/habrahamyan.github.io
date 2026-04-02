@@ -10,5 +10,11 @@
     "title": "Custodial symmetry",
     "description": "Custodial symmetry is one of the concepts within the Standard Model that I personally struggled with, especially given that most pedagogical treatments in the literature are somewhat lacking. This script goes over the concept, carefully explains the group theory aspects and carries out some of the calculations.",
     "keywords": ["Custodial symmetry", "Standard Model", "Gauge bosons", "Bifundamental representation", "Higgs", "Symmetries of the Standard Model", "Approximate symmetries"]
+  },
+  {
+    "file": "scripts/Quantum_corrections_to_the_kink_mass.pdf",
+    "title": "Quantum Corrections to the Kink Mass",
+    "description": "Kinks are $1+1$ dimensional classical solutions which can act as saddles in the path integral. They have a classical mass which is modified by quantum corrections of the kink background interacting with excitations around the saddle. In this note I fill in the details of the computations of this correction that is presented ir Eric Weinberg's book on classical solutions. This computation is surprisingly non-trivial and contains many insights on quantum field theory, quantum mechanics and non-perturbative computations.",
+    "keywords": ["Kink", "Solitons", "Classical solutions", "Path integral", "Saddle points", "Quantum corrections", "Zero point energy", "Kink background", "Non-perturbative computation"]
   }
 ]
