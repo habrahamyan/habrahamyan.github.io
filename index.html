@@ -103,6 +103,17 @@
       cursor: pointer;
     }
     #theme-toggle:hover { opacity: 0.75; }
+    #reveal-email-btn {
+      background: var(--badge-bg);
+      color: var(--link);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      font: 0.9rem/1.5 system-ui, sans-serif;
+      cursor: pointer;
+      vertical-align: baseline;
+    }
+    #reveal-email-btn:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -132,7 +143,8 @@
   <header>
     <h1>Hrach Abrahamyan</h1>
     <p class="description">Hi and welcome to my little corner of the internet. I'm Hrach Abrahamyan, a grad student of theoretical physics at the <a href="https://www.ph.nat.tum.de/en/ph/research/">Technical University Munich</a>. On this website I would like to upload some of my pedagogical and academic works of physics, primarily with the aim of improving my skills in teaching and physics. Hopefully I can give my own spin to some of these explanations. Whenever I have some free time, I will write and upload PDFs where I derive or explain various theoretical physics and math topics.</p>
-    
+    <p class="description">For questions and feedback: <button id="reveal-email-btn" onclick="(function(b){const p=['hrach','.abrahamyan','@','tum','.de'];b.textContent=p.join('');b.onclick=null;b.style.cursor='default';})(this)">Show email</button></p>
+
   </header>
 
   <h2>Scripts</h2>
