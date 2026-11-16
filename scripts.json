@@ -3,18 +3,58 @@
     "file": "scripts/Example_calculation__dimensional_regularization_with_a_two_loop.pdf",
     "title": "Example calculation: dimensional regularization at two-loop",
     "description": "In this manuscript I carry out a two-loop calculation in scalar $\\phi^3$ that I did as homework at some point. The calculation is a good example of loop calculations in quantum field theory, as well as a nice demonstration of dimensional regularization and integration-by-parts identities (IBPs).",
-    "keywords": ["Quantum Field Theory", "Scalar $\\phi^3$", "Two-loop calculation", "Feynman parameters", "Integration by parts identities", "IBPs", "Wick rotation", "Massless bubble", "Feynman integrals", "Beta function", "Gamma function"]
+    "keywords": [
+      "Quantum Field Theory",
+      "Scalar $\\phi^3$",
+      "Two-loop calculation",
+      "Feynman parameters",
+      "Integration by parts identities",
+      "IBPs",
+      "Wick rotation",
+      "Massless bubble",
+      "Feynman integrals",
+      "Beta function",
+      "Gamma function"
+    ]
   },
   {
     "file": "scripts/Custodial_symmetry.pdf",
     "title": "Custodial symmetry",
     "description": "Custodial symmetry is one of the concepts within the Standard Model that I personally struggled with, especially given that most pedagogical treatments in the literature are somewhat lacking. This script goes over the concept, carefully explains the group theory aspects and carries out some of the calculations.",
-    "keywords": ["Custodial symmetry", "Standard Model", "Gauge bosons", "Bifundamental representation", "Higgs", "Symmetries of the Standard Model", "Approximate symmetries"]
+    "keywords": [
+      "Custodial symmetry",
+      "Standard Model",
+      "Gauge bosons",
+      "Bifundamental representation",
+      "Higgs",
+      "Symmetries of the Standard Model",
+      "Approximate symmetries"
+    ]
   },
   {
     "file": "scripts/Quantum_corrections_to_the_kink_mass.pdf",
     "title": "Quantum Corrections to the Kink Mass",
     "description": "Kinks are $1+1$ dimensional classical solutions which can act as saddles in the path integral. They have a classical mass which is modified by quantum corrections of the kink background interacting with excitations around the saddle. In this note I fill in the details of the computations of this correction that is presented ir Eric Weinberg's book on classical solutions. This computation is surprisingly non-trivial and contains many insights on quantum field theory, quantum mechanics and non-perturbative computations.",
-    "keywords": ["Kink", "Solitons", "Classical solutions", "Path integral", "Saddle points", "Quantum corrections", "Zero point energy", "Kink background", "Non-perturbative computation"]
+    "keywords": [
+      "Kink",
+      "Solitons",
+      "Classical solutions",
+      "Path integral",
+      "Saddle points",
+      "Quantum corrections",
+      "Zero point energy",
+      "Kink background",
+      "Non-perturbative computation"
+    ]
+  },
+  {
+    "file": "scripts/massless-2loop-spherical-bessel.pdf",
+    "title": "Massless two-loop integral with a spherical Bessel function",
+    "description": "For my master thesis (studying the pairwise velocity difference generating function) I had to solve the following massless two-loop integral with a spherical Bessel function which introduced the external scale. I have solved it using Feynman parametrization. The final parametric integral requires some tricks.",
+    "keywords": [
+      "Two-loop massless integral",
+      "Spherical Bessel function",
+      "Feynman parametrization"
+    ]
   }
 ]
