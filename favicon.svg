@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <g stroke="#173F87" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- tail -->
+    <path d="M40 50 Q52 56 56 48" fill="none" stroke="#173F87" stroke-width="6"/>
+    <path d="M40 50 Q52 56 56 48" fill="none" stroke="#4C9BF5" stroke-width="3"/>
+    <path d="M53 47 L60 40 L58 50 Z" fill="#7FD3F7"/>
+    <!-- wings -->
+    <path d="M23 39 L3 25 Q7 32 5 38 Q10 37 11 43 Q15 40 22 45 Z" fill="#2F6FD6"/>
+    <path d="M41 39 L61 25 Q57 32 59 38 Q54 37 53 43 Q49 40 42 45 Z" fill="#2F6FD6"/>
+    <!-- legs -->
+    <ellipse cx="25.5" cy="56" rx="5" ry="6" fill="#4C9BF5"/>
+    <ellipse cx="38.5" cy="56" rx="5" ry="6" fill="#4C9BF5"/>
+    <!-- body -->
+    <ellipse cx="32" cy="45" rx="11.5" ry="11" fill="#4C9BF5"/>
+    <!-- horns -->
+    <path d="M22 12 Q17 3 21 0.5 Q23 6 27 9 Z" fill="#FFE9B8"/>
+    <path d="M42 12 Q47 3 43 0.5 Q41 6 37 9 Z" fill="#FFE9B8"/>
+    <!-- head -->
+    <ellipse cx="32" cy="21" rx="16.5" ry="14" fill="#4C9BF5" stroke-width="2.5"/>
+  </g>
+  <!-- belly -->
+  <ellipse cx="32" cy="47" rx="7" ry="7.5" fill="#BFE3FF"/>
+  <path d="M27 45 H37 M26.5 48.5 H37.5" stroke="#8CC4F2" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- toes -->
+  <path d="M23.5 60 v1.5 M27.5 60 v1.5 M36.5 60 v1.5 M40.5 60 v1.5" stroke="#173F87" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- snout -->
+  <ellipse cx="32" cy="28" rx="8.5" ry="5.5" fill="#9FD0FF"/>
+  <circle cx="29.3" cy="26.6" r="1.2" fill="#173F87"/>
+  <circle cx="34.7" cy="26.6" r="1.2" fill="#173F87"/>
+  <path d="M29.5 30.3 Q32 32.3 34.5 30.3" fill="none" stroke="#173F87" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- eyes -->
+  <ellipse cx="24.5" cy="19.5" rx="3.8" ry="4.5" fill="#10204A"/>
+  <ellipse cx="39.5" cy="19.5" rx="3.8" ry="4.5" fill="#10204A"/>
+  <circle cx="25.9" cy="17.7" r="1.5" fill="#fff"/>
+  <circle cx="40.9" cy="17.7" r="1.5" fill="#fff"/>
+  <!-- blush -->
+  <ellipse cx="18" cy="26" rx="2.8" ry="1.6" fill="#FF8FB1" opacity="0.75"/>
+  <ellipse cx="46" cy="26" rx="2.8" ry="1.6" fill="#FF8FB1" opacity="0.75"/>
+</svg>
