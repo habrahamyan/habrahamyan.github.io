@@ -25,12 +25,16 @@
       --border:      #eeeeee;
       --badge-bg:    #eef;
       --badge-text:  #225;
+      --card-bg:     #fafbfc;
+      --card-border: #e3e6ea;
+      --card-hover:  #c8d4e3;
+      --card-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 14px rgba(0,0,0,.06);
     }
     @media (prefers-color-scheme: dark) {
-      :root { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
+      :root { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#1c2330; --badge-text:#79c0ff; --card-bg:#161b22; --card-border:#30363d; --card-hover:#3d5a80; --card-shadow:0 4px 18px rgba(0,0,0,.45); }
     }
-    [data-theme="dark"]  { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#161b22; --badge-text:#79c0ff; }
-    [data-theme="light"] { --bg:#ffffff; --text:#222222; --text-muted:#555555; --text-muted2:#444444; --link:#0066cc; --border:#eeeeee; --badge-bg:#eef; --badge-text:#225; }
+    [data-theme="dark"]  { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --text-muted2:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#1c2330; --badge-text:#79c0ff; --card-bg:#161b22; --card-border:#30363d; --card-hover:#3d5a80; --card-shadow:0 4px 18px rgba(0,0,0,.45); }
+    [data-theme="light"] { --bg:#ffffff; --text:#222222; --text-muted:#555555; --text-muted2:#444444; --link:#0066cc; --border:#eeeeee; --badge-bg:#eef; --badge-text:#225; --card-bg:#fafbfc; --card-border:#e3e6ea; --card-hover:#c8d4e3; --card-shadow:0 1px 2px rgba(0,0,0,.04), 0 4px 14px rgba(0,0,0,.06); }
 
     body {
       max-width: 800px;
@@ -57,12 +61,6 @@
       margin-top: 2rem;
       font-size: 1.3rem;
     }
-    ul {
-      padding-left: 1.2rem;
-    }
-    li {
-      margin: .3rem 0;
-    }
     a {
       text-decoration: none;
       color: var(--link);
@@ -70,25 +68,81 @@
     a:hover {
       text-decoration: underline;
     }
-    .item-desc {
-      margin: 0.2rem 0 0 0;
-      font-size: 0.9rem;
+    .card-list {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0 3rem;
+    }
+    .card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem 1rem;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .card:hover,
+    .card:focus-within {
+      border-color: var(--card-hover);
+      box-shadow: var(--card-shadow);
+      transform: translateY(-1px);
+    }
+    .card-title {
+      margin: 0;
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    /* Make the whole card clickable via the title link. */
+    .card-title a::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+    .card-title a:hover { text-decoration: none; }
+    .card:hover .card-title a { text-decoration: underline; }
+    .card-title a:focus-visible { outline: none; }
+    .card:has(.card-title a:focus-visible) {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    .card-desc {
+      margin: .45rem 0 0;
+      font-size: .92rem;
       color: var(--text-muted);
     }
-    .keyword-wrapper {
-      margin: 0.3rem 0 0 0;
-      font-size: 0.85rem;
-      color: var(--text-muted2);
+    .card-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin: .75rem 0 0;
+      padding: 0;
+      list-style: none;
     }
-    .keyword-wrapper .kw-label { font-weight: 600; }
     .keyword-badge {
       display: inline-block;
       background: var(--badge-bg);
       color: var(--badge-text);
-      padding: 0.1rem 0.4rem;
-      margin-right: 0.3rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: .85rem;
+      padding-top: .7rem;
+      border-top: 1px solid var(--card-border);
+      font-size: .8rem;
+      color: var(--text-muted2);
+    }
+    .card-footer svg { flex: none; opacity: .75; }
+    .card-status {
+      color: var(--text-muted);
+      font-size: .92rem;
     }
     #theme-toggle {
       position: fixed;
@@ -148,7 +202,7 @@
   </header>
 
   <h2>Scripts</h2>
-  <ul id="pdf-list"></ul>
+  <div id="pdf-list" class="card-list" aria-live="polite"></div>
 
   <script>
     window._katexOpts = {
@@ -173,53 +227,75 @@
     onload="if(window._mathQueue){renderMathInElement(window._mathQueue,window._katexOpts);window._mathQueue=null;}"></script>
 
   <script>
-    fetch("scripts.json")
-      .then(r => r.json())
-      .then(items => {
-        items.forEach(item => {
-          const li = document.createElement("li");
+    (function() {
+      const list = document.getElementById("pdf-list");
+      const CAL_ICON =
+        '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" ' +
+        'stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/>' +
+        '<path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>';
 
-          const a = document.createElement("a");
-          const fileId = item.file.split("/").pop().replace(".pdf", "");
-          a.href = "paper/?id=" + encodeURIComponent(fileId);
-          a.textContent = item.title;
+      // "2026-11-16" -> "16 Nov 2026" (parsed as a local date, so no timezone shift)
+      function formatDate(iso) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+        if (!m) return null;
+        const d = new Date(+m[1], +m[2] - 1, +m[3]);
+        return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+      }
 
-          const desc = document.createElement("p");
-          desc.className = "item-desc";
-          desc.textContent = item.description;
+      function el(tag, className, text) {
+        const e = document.createElement(tag);
+        if (className) e.className = className;
+        if (text != null) e.textContent = text;
+        return e;
+      }
 
-          li.appendChild(a);
-          li.appendChild(desc);
+      function renderCard(item) {
+        const card = el("article", "card");
 
-        // Add keywords if present
-        if (item.keywords) {
-          const kwWrapper = document.createElement("p");
-          kwWrapper.className = "keyword-wrapper";
+        const h3 = el("h3", "card-title");
+        const a = el("a", null, item.title);
+        const fileId = item.file.split("/").pop().replace(/\.pdf$/i, "");
+        a.href = "paper/?id=" + encodeURIComponent(fileId);
+        h3.appendChild(a);
+        card.appendChild(h3);
 
-          const label = document.createElement("span");
-          label.className = "kw-label";
-          label.textContent = "Keywords: ";
-          kwWrapper.appendChild(label);
+        if (item.description) card.appendChild(el("p", "card-desc", item.description));
 
-          item.keywords.forEach((word, i) => {
-            const span = document.createElement("span");
-            span.className = "keyword-badge";
-            span.textContent = word;
-            kwWrapper.appendChild(span);
+        if (item.keywords && item.keywords.length) {
+          const ul = el("ul", "card-keywords");
+          ul.setAttribute("aria-label", "Keywords");
+          item.keywords.forEach(word => {
+            const li = el("li");
+            li.appendChild(el("span", "keyword-badge", word));
+            ul.appendChild(li);
           });
-
-          li.appendChild(kwWrapper);
+          card.appendChild(ul);
         }
 
-          document.getElementById("pdf-list").appendChild(li);
+        const pretty = formatDate(item.updated);
+        if (pretty) {
+          const footer = el("div", "card-footer");
+          footer.innerHTML = CAL_ICON;
+          footer.appendChild(document.createTextNode("Last updated "));
+          const time = el("time", null, pretty);
+          time.dateTime = item.updated;
+          footer.appendChild(time);
+          card.appendChild(footer);
+        }
+        return card;
+      }
+
+      fetch("scripts.json")
+        .then(r => r.json())
+        .then(items => {
+          items.forEach(item => list.appendChild(renderCard(item)));
+          window._renderMath(list);
+        })
+        .catch(err => {
+          console.error(err);
+          list.replaceChildren(el("p", "card-status", "Could not load the list of scripts."));
         });
-        window._renderMath(document.getElementById("pdf-list"));
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById("pdf-list").innerHTML =
-          "<li>Could not load list of PDFs.</li>";
-      });
+    })();
   </script>
 </body>
 </html>

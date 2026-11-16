@@ -2,7 +2,8 @@
 """Add (or replace) a script on the website from a "New script" GitHub issue.
 
 Reads the issue body from the ISSUE_BODY environment variable, downloads the
-attached PDF into scripts/, updates scripts.json and regenerates sitemap.xml.
+attached PDF into scripts/, updates scripts.json (stamping today's date as
+the "updated" field) and regenerates sitemap.xml.
 Writes the new page id to $GITHUB_OUTPUT. Exits non-zero with a readable
 message on any problem.
 """
@@ -12,6 +13,7 @@ import re
 import sys
 import urllib.parse
 import urllib.request
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -157,7 +159,7 @@ def main():
 
     download_pdf(url, ROOT / rel)
 
-    entry = {"file": rel, "title": title, "description": description, "keywords": keywords}
+    entry = {"file": rel, "title": title, "updated": date.today().isoformat(), "description": description, "keywords": keywords}
     if existing is not None:
         items[existing] = entry
     else:
