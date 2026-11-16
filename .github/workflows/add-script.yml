@@ -1,0 +1,76 @@
+name: Add script from issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: add-script
+  cancel-in-progress: false
+
+jobs:
+  add-script:
+    # Only issues created with the "New script" form, by the repository owner.
+    if: >-
+      github.event.issue.state == 'open' &&
+      github.event.issue.author_association == 'OWNER' &&
+      contains(github.event.issue.body, '### PDF file')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Add PDF and update scripts.json / sitemap.xml
+        id: add
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ERROR_FILE: ${{ runner.temp }}/error.md
+        run: python3 .github/scripts/add_script.py
+
+      - name: Commit and push
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PAGE_ID: ${{ steps.add.outputs.id }}
+          ACTION: ${{ steps.add.outputs.action }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts scripts.json sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "$ACTION script $PAGE_ID (closes #$ISSUE_NUMBER)"
+          git push
+
+      - name: Report success and close issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PAGE_ID: ${{ steps.add.outputs.id }}
+          ACTION: ${{ steps.add.outputs.action }}
+          SITE: https://${{ github.repository_owner }}.github.io
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "✅ $ACTION! The page will be live in a minute or two at
+          $SITE/paper/?id=$PAGE_ID"
+          gh issue close "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --reason completed
+
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ERROR_FILE: ${{ runner.temp }}/error.md
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          msg="Something went wrong."
+          [ -f "$ERROR_FILE" ] && msg="$(cat "$ERROR_FILE")"
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "❌ $msg
+
+          Edit this issue to fix it and I'll try again. ([run log]($RUN_URL))"
