@@ -1,0 +1,62 @@
+name: 📄 New script
+description: Upload a new script (PDF) to the website. It is published automatically once you submit.
+title: "New script: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in the fields below and drag your PDF into the **PDF file** box.
+        When you click **Submit new issue**, a bot adds the PDF to `scripts/`, updates `scripts.json` and `sitemap.xml`,
+        and closes this issue with a link to the new page (usually within a minute).
+
+        LaTeX works as usual, e.g. `$\phi^3$` or `$1+1$`. No escaping needed.
+
+        If something goes wrong, the bot comments here with the reason. Just **edit the issue** to fix it and it will retry.
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: "Quantum Corrections to the Kink Mass"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Short summary shown on the homepage and the paper page. Line breaks are joined into one paragraph.
+    validations:
+      required: true
+  - type: textarea
+    id: keywords
+    attributes:
+      label: Keywords
+      description: One keyword per line (or comma-separated on a single line).
+      placeholder: |
+        Quantum Field Theory
+        Scalar $\phi^3$
+        Two-loop calculation
+    validations:
+      required: false
+  - type: textarea
+    id: pdf
+    attributes:
+      label: PDF file
+      description: Drag and drop the PDF here (or click to attach it). Wait until the upload finishes before submitting.
+    validations:
+      required: true
+  - type: input
+    id: filename
+    attributes:
+      label: File name (optional)
+      description: |
+        Determines the page URL (`/paper/?id=<file name>`). Leave empty to use the name of the uploaded PDF.
+        Only letters, digits, `_` and `-` are kept.
+      placeholder: "Quantum_corrections_to_the_kink_mass"
+    validations:
+      required: false
+  - type: checkboxes
+    id: replace
+    attributes:
+      label: Replacing an existing script?
+      options:
+        - label: "Yes: overwrite the existing script with this file name (PDF, title, description and keywords)"
