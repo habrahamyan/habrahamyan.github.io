@@ -7,6 +7,12 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- Software -->
+  <url>
+    <loc>https://habrahamyan.github.io/granada/</loc>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Paper viewer pages -->
   <url>
     <loc>https://habrahamyan.github.io/paper/?id=Example_calculation__dimensional_regularization_with_a_two_loop</loc>

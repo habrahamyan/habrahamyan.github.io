@@ -1,0 +1,11 @@
+# Hrach Abrahamyan
+
+> Personal website of Hrach Abrahamyan, a master student of theoretical physics at the Technical University of Munich: pedagogical scripts (PDFs) on quantum field theory and related topics, and research software.
+
+## Software
+
+- [granada](https://habrahamyan.github.io/granada/llms.md): Python package for exact, symbolic manipulation of perturbation-theory integrands (3-vector algebra, Feynman and Schwinger pipelines, reduction to master integrals). Read this file in full before writing code that uses granada.
+
+## Scripts
+
+- [List of scripts](https://habrahamyan.github.io/scripts.json): JSON list of every script, with title, description, keywords, last-updated date and the path to the PDF.

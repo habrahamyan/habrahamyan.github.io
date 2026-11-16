@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>granada – Hrach Abrahamyan</title>
+  <meta name="description" content="granada: a Python package for exact, symbolic manipulation of perturbation-theory integrands, from an integrand written on paper to master integrals with rational coefficients." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate" type="text/markdown" href="llms.md" title="granada reference for LLMs">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+
+  <script>
+    (function() {
+      try {
+        const t = localStorage.getItem("theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    :root {
+      --bg:          #ffffff;
+      --text:        #222222;
+      --text-muted:  #555555;
+      --link:        #0066cc;
+      --border:      #eeeeee;
+      --badge-bg:    #eef;
+      --badge-text:  #225;
+      --card-bg:     #fafbfc;
+      --card-border: #e3e6ea;
+      --code-bg:     #f4f6f8;
+      --accent-bg:   #eef4fc;
+      --accent-border: #c8d9ef;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#1c2330; --badge-text:#79c0ff; --card-bg:#161b22; --card-border:#30363d; --code-bg:#161b22; --accent-bg:#122033; --accent-border:#2a4566; }
+    }
+    [data-theme="dark"]  { --bg:#0d1117; --text:#e6edf3; --text-muted:#8b949e; --link:#58a6ff; --border:#30363d; --badge-bg:#1c2330; --badge-text:#79c0ff; --card-bg:#161b22; --card-border:#30363d; --code-bg:#161b22; --accent-bg:#122033; --accent-border:#2a4566; }
+
+    body {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      font: 16px/1.6 system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { font-size: .9rem; }
+    header {
+      border-bottom: 2px solid var(--border);
+      margin: 1rem 0 1.5rem;
+      padding-bottom: 1.2rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: -.01em;
+    }
+    .tagline { margin: .4rem 0 .8rem; color: var(--text-muted); font-size: 1.05rem; }
+    .badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+    .badge {
+      background: var(--badge-bg); color: var(--badge-text);
+      padding: .12rem .55rem; border-radius: 999px; font-size: .8rem;
+    }
+    h2 { margin: 2.2rem 0 .6rem; font-size: 1.3rem; }
+    p { margin: .6rem 0; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .85em;
+    }
+    :not(pre) > code {
+      background: var(--code-bg);
+      padding: .08rem .3rem;
+      border-radius: 4px;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+      overflow-x: auto;
+      line-height: 1.5;
+      margin: .8rem 0;
+    }
+    ul.plain { padding-left: 1.2rem; }
+    ul.plain li { margin: .35rem 0; }
+
+    .copy-row { position: relative; }
+    .copy-row pre { padding-right: 5.5rem; }
+    .copy-btn {
+      position: absolute; top: .55rem; right: .55rem;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--card-border); border-radius: 6px;
+      padding: .25rem .6rem; font: .78rem/1.2 system-ui, sans-serif;
+      cursor: pointer;
+    }
+    .copy-btn:hover { border-color: var(--link); color: var(--link); }
+
+    .llm-box {
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin: 1rem 0;
+    }
+    .llm-box h2 { margin-top: 0; }
+    .llm-box pre { background: var(--bg); white-space: pre-wrap; }
+    .llm-box .small { font-size: .88rem; color: var(--text-muted); }
+
+    .links { display: flex; flex-wrap: wrap; gap: .6rem; margin: .8rem 0; padding: 0; list-style: none; }
+    .links a {
+      display: inline-block;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: .45rem .9rem;
+      font-size: .92rem;
+    }
+    .links a:hover { border-color: var(--link); text-decoration: none; }
+
+    footer {
+      margin: 3rem 0 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: .85rem;
+      color: var(--text-muted);
+    }
+
+    #theme-toggle {
+      position: fixed; top: 1rem; right: 1rem;
+      background: var(--badge-bg); color: var(--text);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 0.3rem 0.7rem; font: 0.8rem/1 system-ui, sans-serif;
+      cursor: pointer;
+    }
+    #theme-toggle:hover { opacity: 0.75; }
+  </style>
+</head>
+<body>
+  <button id="theme-toggle" aria-label="Toggle dark mode"></button>
+
+  <a class="back" href="/">← Hrach Abrahamyan</a>
+
+  <header>
+    <h1>granada</h1>
+    <p class="tagline">Exact, symbolic algebra for perturbation-theory integrands: from an integrand written on paper to master integrals with rational coefficients.</p>
+    <ul class="badges" aria-label="Package facts">
+      <li class="badge">v0.1.0</li>
+      <li class="badge">Python ≥ 3.10</li>
+      <li class="badge">depends only on SymPy</li>
+      <li class="badge">MIT licence</li>
+    </ul>
+  </header>
+
+  <h2>What it does</h2>
+  <p>
+    Loop integrals in cosmological perturbation theory start out as products of
+    kernels, power spectra, scalar products of 3-vectors and spherical Bessel
+    functions $j_\ell(|\boldsymbol v|\,r)$ of the separation $r$. Getting from
+    such an integrand to a short list of master integrals takes pages of tensor
+    algebra and bookkeeping. granada does that algebra exactly: a vector is a
+    name, a scalar product is a pair of names, and exponents are rationals or
+    linear forms in the spectral index $n$. Nothing in it is numerical.
+  </p>
+  <p>It consists of a shared core and two independent pipelines:</p>
+  <ul class="plain">
+    <li>
+      <strong>The core</strong> (<code>granada</code>): the notation, the kernels
+      $F_n, G_n$ and $P_L$, the reduction to masters (<code>reduce</code>,
+      <code>align</code>, <code>fold</code>), the average over the direction of
+      $\boldsymbol r$, and output as LaTeX/HTML pages or Mathematica files.
+    </li>
+    <li>
+      <strong>The Feynman pipeline</strong> (<code>granada.feynman</code>): takes
+      a term with an axis $\hat{\boldsymbol z}$ through peel → project → average
+      to scalar integrands sorted by powers of
+      $\nu = \hat{\boldsymbol z}\cdot\hat{\boldsymbol r}$, then evaluates them at
+      your master integral.
+    </li>
+    <li>
+      <strong>The Schwinger pipeline</strong> (<code>granada.schwinger</code>):
+      writes Fourier-type loop integrals as Schwinger parameters acting on one
+      Gaussian $Z(A,J)$, and carries the terms that factorize to closed forms.
+    </li>
+    <li>
+      <strong>Tensor decomposition</strong> (<code>granada.decompose</code>):
+      writes a rank-$n$ tensor as a sum over products of $\delta_{ij}$ and
+      $\hat r_i$. It stands on its own.
+    </li>
+  </ul>
+  <p>Every step can be rendered as a page, so each stage can be checked against a calculation by hand.</p>
+
+<pre><code>from granada import Vector, G2, PL, g
+from granada.feynman import feynmanReduce
+
+k, p = Vector("k"), Vector("p")
+L = feynmanReduce(G2(k, p) * PL(k) * PL(p) * g(k) * g(p) * g(k + p),
+                  path="feynman.html")   # one block per stage, to check by hand</code></pre>
+
+  <h2>Why I made it</h2>
+  <!-- PLACEHOLDER: replace this section with your own words. -->
+  <p>
+    I wrote granada during my master's thesis on the generating function of
+    pairwise velocity differences in large-scale structure. The loop integrals
+    there carry velocity kernels, spherical Bessel functions of the separation
+    and powers of the line-of-sight angle, and reducing them by hand meant long
+    stretches of tensor algebra where a single dropped sign could go unnoticed
+    for weeks.
+  </p>
+  <p>
+    I wanted a tool that takes an integrand exactly as I would write it on paper,
+    shows every intermediate step so it can be checked by eye, and hands back a
+    list of masters with exact coefficients, ready for Mathematica. It grew into
+    two pipelines because the Feynman and Schwinger approaches each handle a
+    different class of integrals well.
+  </p>
+
+  <h2>Install</h2>
+  <div class="copy-row">
+    <pre><code id="install-cmd">pip install granada</code></pre>
+    <button class="copy-btn" data-copy="install-cmd">Copy</button>
+  </div>
+  <p>For inline rendering in Jupyter notebooks: <code>pip install "granada[notebook]"</code>.</p>
+
+  <ul class="links">
+    <li><a href="https://pypi.org/project/granada/">PyPI page ↗</a></li>
+    <li><a href="llms.md">Full reference (Markdown)</a></li>
+  </ul>
+
+  <section class="llm-box" aria-labelledby="llm-heading">
+    <h2 id="llm-heading">Use it with an AI assistant</h2>
+    <p>
+      The full reference for granada lives in a single Markdown file written for
+      language models: an orientation with the rules that matter, the complete
+      README, and every public function with its signature and docstring.
+      Point your assistant (ChatGPT, Claude, Copilot, …) to it before asking it
+      to write granada code:
+    </p>
+    <div class="copy-row">
+      <pre><code id="llm-url">https://habrahamyan.github.io/granada/llms.md</code></pre>
+      <button class="copy-btn" data-copy="llm-url">Copy</button>
+    </div>
+    <p>Or paste a prompt like this one:</p>
+    <div class="copy-row">
+      <pre><code id="llm-prompt">Read https://habrahamyan.github.io/granada/llms.md in full, then help me use the Python package granada to …</code></pre>
+      <button class="copy-btn" data-copy="llm-prompt">Copy</button>
+    </div>
+    <p class="small">
+      The file is about 190&nbsp;KB (roughly 50k tokens). If your assistant
+      cannot browse the web, download it and attach it to the chat instead.
+    </p>
+  </section>
+
+  <footer>
+    granada is released under the MIT licence. Questions and feedback are welcome:
+    the contact link is on the <a href="/">homepage</a>.
+  </footer>
+
+  <script>
+    (function() {
+      const btn = document.getElementById("theme-toggle");
+      const root = document.documentElement;
+      const isDark = () => root.getAttribute("data-theme") === "dark" ||
+        (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      const update = () => { btn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+      update();
+      btn.addEventListener("click", function() {
+        const next = isDark() ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        update();
+      });
+
+      document.querySelectorAll(".copy-btn").forEach(b => {
+        b.addEventListener("click", () => {
+          const text = document.getElementById(b.dataset.copy).textContent;
+          const done = ok => {
+            b.textContent = ok ? "Copied" : "Press Ctrl+C";
+            setTimeout(() => { b.textContent = "Copy"; }, 1500);
+          };
+          if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+          else done(false);
+        });
+      });
+    })();
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], ignoredTags: ['script','noscript','style','textarea','pre','code'], throwOnError: false});"></script>
+</body>
+</html>

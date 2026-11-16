@@ -21,6 +21,8 @@ SCRIPTS_JSON = ROOT / "scripts.json"
 SITEMAP = ROOT / "sitemap.xml"
 SITE = "https://habrahamyan.github.io"
 NO_RESPONSE = "_No response_"
+# Hand-made pages that are not scripts; kept in the sitemap on every rebuild.
+EXTRA_PAGES = ["granada/"]
 
 
 class UserError(Exception):
@@ -114,7 +116,11 @@ def write_sitemap(items: list):
     <loc>%s/</loc>
     <priority>1.0</priority>
   </url>
-""" % SITE, "  <!-- Paper viewer pages -->"]
+""" % SITE, "  <!-- Software -->"] + [f"""  <url>
+    <loc>{SITE}/{page}</loc>
+    <priority>0.9</priority>
+  </url>
+""" for page in EXTRA_PAGES] + ["  <!-- Paper viewer pages -->"]
     for item in items:
         pid = Path(item["file"]).stem
         loc = f"{SITE}/paper/?id={urllib.parse.quote(pid)}"
